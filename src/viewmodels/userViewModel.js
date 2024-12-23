@@ -1,24 +1,27 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getUser,
   getUserRepositories,
-  getRepositoryDetails,
 } from '../services/githubService';
+import { Repository } from '../models/Repository';
 
 // Thunks
-export const fetchUser = createAsyncThunk('user/fetchUser', async username => {
+export const fetchUser = createAsyncThunk('user/fetchUser', async (username) => {
   const data = await getUser(username);
   return data;
 });
 
 export const fetchRepositories = createAsyncThunk(
   'user/fetchRepositories',
-  async username => {
+  async (username) => {
     const data = await getUserRepositories(username);
-    return data.sort((a, b) => b.stargazers_count - a.stargazers_count);
-  },
+    return data
+      .sort((a, b) => b.stargazers_count - a.stargazers_count)
+      .map((repo) => new Repository(repo));
+  }
 );
 
+// Slice
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -28,9 +31,9 @@ const userSlice = createSlice({
     error: null,
   },
   reducers: {},
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     builder
-      .addCase(fetchUser.pending, state => {
+      .addCase(fetchUser.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
@@ -41,8 +44,16 @@ const userSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      .addCase(fetchRepositories.pending, (state) => {
+        state.loading = true;
+      })
       .addCase(fetchRepositories.fulfilled, (state, action) => {
+        state.loading = false;
         state.repositories = action.payload;
+      })
+      .addCase(fetchRepositories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
