@@ -8,7 +8,6 @@ import {
   ScrollView,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadUserRepositories} from '../viewmodels/userSlice';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from '../style/StyleUser';
 import axios from 'axios';
@@ -20,32 +19,25 @@ export default function UserDetailsScreen({navigation}) {
   const dispatch = useDispatch();
 
   const handleSeeRepositories = async () => {
-    console.log('Fetching repositories...');
     try {
       const response = await axios.get(
-        `https://api.github.com/users/octocat/repos?sort=stars&order=desc`,
+        `https://api.github.com/users/${user.login}/repos?sort=stars&order=desc`,
       );
-
-      console.log('Response:', response.data);
 
       dispatch({
         type: 'FETCH_REPOSITORIES_SUCCESS',
         payload: response.data,
       });
 
-      navigation.navigate('RepositoriesScreen');
+      navigation.navigate('RepositoriesScreen', {
+        repositories: response.data,
+      });
     } catch (error) {
       if (error.response) {
-        // O servidor respondeu com um status diferente de 2xx
-        console.error('Response Error:', error.response.data);
         alert(`Error: ${error.response.data.message}`);
       } else if (error.request) {
-        // A requisição foi feita, mas não houve resposta
-        console.error('No Response:', error.request);
         alert('No response from the server. Check your internet connection.');
       } else {
-        // Erro ao configurar a requisição
-        console.error('Request Error:', error.message);
         alert('Failed to fetch repositories. Try again later.');
       }
     }

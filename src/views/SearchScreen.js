@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 import React, {useState} from 'react';
 import {View, Text, TextInput, TouchableOpacity} from 'react-native';
 import {useDispatch} from 'react-redux';
@@ -31,10 +32,20 @@ export default function SearchScreen({navigation}) {
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity style={styles.menuButton}>
-          <MaterialIcons name="menu" size={24} color="black" accessibilityLabel="Menu" />
+          <MaterialIcons
+            name="menu"
+            size={24}
+            color="black"
+            accessibilityLabel="Menu"
+          />
         </TouchableOpacity>
         <TouchableOpacity>
-          <MaterialIcons name="person" size={40} color="gray" accessibilityLabel="User Profile" />
+          <MaterialIcons
+            name="person"
+            size={40}
+            color="gray"
+            accessibilityLabel="User Profile"
+          />
         </TouchableOpacity>
       </View>
 
@@ -51,7 +62,12 @@ export default function SearchScreen({navigation}) {
           placeholderTextColor="#A9A9A9"
         />
         <TouchableOpacity onPress={handleSearch}>
-          <MaterialIcons name="search" size={24} color="black" accessibilityLabel="Search" />
+          <MaterialIcons
+            name="search"
+            size={24}
+            color="black"
+            accessibilityLabel="Search"
+          />
         </TouchableOpacity>
       </View>
 
