@@ -75,9 +75,9 @@ export default function UserDetailsScreen({navigation}) {
           <Image source={{uri: user.avatar_url}} style={styles.avatar} />
           <Text style={styles.name}>{user.name || 'Name Dev'}</Text>
           <Text style={styles.email}>
-            {user.email || 'E-mail não informado'}
+            {user.email || 'Email not provided'}
           </Text>
-          <Text style={styles.bio}>{user.bio || 'Biografia não descrita'}</Text>
+          <Text style={styles.bio}>{user.bio || 'Biography not described'}</Text>
 
           <View style={styles.footer}>
             <View style={styles.statsRow}>

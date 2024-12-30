@@ -5,7 +5,6 @@ import {
 } from '../services/githubService';
 import { Repository } from '../models/Repository';
 
-// Thunks
 export const fetchUser = createAsyncThunk('user/fetchUser', async (username) => {
   const data = await getUser(username);
   return data;
@@ -21,7 +20,6 @@ export const fetchRepositories = createAsyncThunk(
   }
 );
 
-// Slice
 const userSlice = createSlice({
   name: 'user',
   initialState: {

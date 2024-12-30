@@ -7,7 +7,7 @@ import styles from '../style/StyleRepository';
 export default function RepositoriesScreen({navigation, route}) {
   const storedRepositories = useSelector(state => state.user.repositories);
   const repositories = route.params?.repositories || storedRepositories;
-  const [sortOrder, setSortOrder] = useState('desc'); // Estado para controlar a ordem
+  const [sortOrder, setSortOrder] = useState('desc');
 
   const openRepository = url => {
     Linking.openURL(url);
@@ -17,7 +17,6 @@ export default function RepositoriesScreen({navigation, route}) {
     setSortOrder(prevOrder => (prevOrder === 'desc' ? 'asc' : 'desc'));
   };
 
-  // Ordenar os repositórios com base no estado
   const sortedRepositories = [...repositories].sort((a, b) => {
     return sortOrder === 'desc'
       ? b.stargazers_count - a.stargazers_count
@@ -43,7 +42,7 @@ export default function RepositoriesScreen({navigation, route}) {
 
       <TouchableOpacity style={styles.sortButton} onPress={toggleSortOrder}>
         <Text style={styles.sortButtonText}>
-          Mostrar {sortOrder === 'desc' ? 'Menos Estrelas' : 'Mais Estrelas'}
+        Show {sortOrder === 'desc' ? 'Less Stars' : 'More Stars'}
         </Text>
       </TouchableOpacity>
 
